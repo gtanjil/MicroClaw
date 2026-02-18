@@ -1,18 +1,19 @@
-pub struct Hardware {
-    // Pins would go here (e.g., GPIO)
+use crate::agent::Action;
+
+pub struct HardwareHandler;
+
+pub fn init() -> HardwareHandler {
+    // Configure GPIO Pins here
+    HardwareHandler
 }
 
-impl Hardware {
-    pub fn init() -> Self {
-        // Initialize GPIO pins here
-        Self {}
-    }
-
-    pub fn apply(&mut self, command_val: i32) {
-        if command_val == 1 {
-            // Logic to turn Pin High (Physical Action)
-        } else {
-            // Logic to turn Pin Low
+impl HardwareHandler {
+    pub fn execute(&mut self, action: Action) {
+        match action {
+            Action::Toggle => { /* Toggle Pin */ },
+            Action::Pulse(ms) => { /* PWM Pulse for ms */ },
+            Action::Offload => { /* Do nothing, handled by net */ },
+            Action::None => {},
         }
     }
 }
