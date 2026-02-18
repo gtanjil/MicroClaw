@@ -53,7 +53,7 @@ cargo install cargo-espflash
 
 ### 2. Clone & Build
 ```bash
-git clone https://github.com/your-username/micro-claw.git
+git clone https://github.com/gtanjil/micro-claw.git
 cd micro-claw
 
 # Build for Release (Size Optimization Active)
