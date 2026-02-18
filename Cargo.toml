@@ -1,0 +1,22 @@
+[package]
+name = "micro-claw"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Embedded core
+riscv-rt = "0.12"           # Replace with cortex-m-rt if using ARM
+panic-halt = "0.2"          # Minimal panic handler (saves ~20KB)
+embedded-hal = "1.0"        # Hardware abstraction
+
+# Zero-Heap Data Structures
+heapless = "0.8"            # Fixed-capacity Vec and String
+serde = { version = "1.0", default-features = false, features = ["derive"] }
+serde-json-core = "0.5"     # JSON parsing without memory allocation
+
+[profile.release]
+opt-level = "z"             # Optimize specifically for binary size
+lto = true                  # Link Time Optimization (huge size reduction)
+codegen-units = 1           # Allow maximum optimization passes
+panic = "abort"             # Remove stack unwinding
+strip = true                # Automatically strip symbols from binary
