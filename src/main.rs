@@ -2,7 +2,13 @@
 #![no_main]
 
 use panic_halt as _;
+
+// Architecture Fix: Conditional imports based on target CPU
+#[cfg(target_arch = "riscv32")]
 use riscv_rt::entry;
+
+#[cfg(target_arch = "arm")]
+use cortex_m_rt::entry;
 
 mod agent;
 mod net;
@@ -11,24 +17,24 @@ mod protocol;
 
 #[entry]
 fn main() -> ! {
-    // Initialize Hardware Peripherals
+    // 1. Initialize Hardware (GPIO/Peripherals)
     let mut hardware = driver::init();
-    
-    // Initialize the Agent Brain
+
+    // 2. Initialize the MicroClaw "Krill" Brain
     let mut brain = agent::Brain::new();
 
     loop {
-        // 1. Listen for signals from the Mesh or Local sensors
+        // 3. Listen for agentic signals via Mesh (UDP/KMP)
         if let Some(signal) = net::listen_for_signal() {
             
-            // 2. Process logic
-            let response = brain.process(signal);
+            // 4. Process instruction through local 1-bit logic
+            let action = brain.decide(signal);
             
-            // 3. Act physically
-            hardware.execute(response);
+            // 5. Execute hardware change
+            hardware.execute(action);
             
-            // 4. Report back to the Swarm
-            net::broadcast_status("TASK_COMPLETE");
+            // 6. Broadcast status back to the "Swarm"
+            net::broadcast_status(protocol::Status::Success);
         }
     }
 }
