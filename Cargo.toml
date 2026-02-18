@@ -1,13 +1,18 @@
 [package]
 name = "micro-claw"
 version = "0.1.0"
-edition = "2026"
+edition = "2021"
+authors = ["MicroClaw Team"]
 
 [dependencies]
-# Architecture support
+# Architecture: RISC-V (The "Krill" standard)
+riscv = "0.10"
 riscv-rt = "0.12"
-cortex-m-rt = "0.7"
 panic-halt = "0.2"
+
+# Embedded Utilities
+embedded-hal = "1.0"
+nb = "1.1"
 
 # Efficient Data Handling
 heapless = "0.8"
@@ -15,8 +20,8 @@ serde = { version = "1.0", default-features = false, features = ["derive"] }
 serde-json-core = "0.5"
 
 [profile.release]
-opt-level = "z"      # Size optimization
-lto = true           # Link-time optimization
+opt-level = "z"      # Optimize for size
+lto = true           # Link Time Optimization
 codegen-units = 1
 panic = "abort"
-strip = true
+strip = true         # Strip symbols to save space
