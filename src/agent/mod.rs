@@ -1,12 +1,16 @@
-pub struct Brain {
-    pub id: u8,
+//! The Decision Engine
+
+// 1. Define Action PUBLICLY so Driver can see it
+#[derive(Debug, Clone, Copy)]
+pub enum Action {
+    ToggleLight,
+    PulseMotor(u32), // Run for X ms
+    OffloadTask,     // Send to OpenClaw
+    Standby,
 }
 
-pub enum Action {
-    Pulse(u32),
-    Toggle,
-    Offload,
-    None,
+pub struct Brain {
+    pub id: u8,
 }
 
 impl Brain {
@@ -14,15 +18,19 @@ impl Brain {
         Self { id: 0x01 }
     }
 
-    pub fn decide(&self, input: &[u8]) -> Action {
-        // Very basic pattern matching for speed/size
-        if input.is_empty() { return Action::None; }
-        
-        match input[0] {
-            b'1' => Action::Toggle,
-            b'2' => Action::Pulse(100),
-            b'9' => Action::Offload, // Send to OpenClaw
-            _ => Action::None,
+    // 2. Fixed naming: standardized on 'decide'
+    pub fn decide(&self, input: Option<&[u8]>) -> Action {
+        match input {
+            Some(data) => {
+                // Simple byte-level pattern matching (No heavy parsing)
+                match data.get(0) {
+                    Some(b'1') => Action::ToggleLight,
+                    Some(b'2') => Action::PulseMotor(100),
+                    Some(b'9') => Action::OffloadTask,
+                    _ => Action::Standby,
+                }
+            }
+            None => Action::Standby,
         }
     }
 }
