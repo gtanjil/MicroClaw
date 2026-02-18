@@ -1,9 +1,13 @@
-#[repr(u8)]
+//! Krill Mesh Protocol (KMP) Definitions
+
+// Status codes for network broadcasting
 pub enum Status {
-    Success = 0,
-    Failure = 1,
-    Busy = 2,
+    Idle,
+    Working,
+    Success,
+    Error,
 }
 
+// Protocol Constants
 pub const KRILL_VERSION: u8 = 1;
 pub const MESH_PORT: u16 = 8888;
