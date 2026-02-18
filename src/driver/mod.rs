@@ -1,19 +1,31 @@
+//! Hardware Abstraction Layer
+
+// 3. Import Action from the agent module
 use crate::agent::Action;
 
-pub struct HardwareHandler;
+pub struct Hardware;
 
-pub fn init() -> HardwareHandler {
-    // Configure GPIO Pins here
-    HardwareHandler
+pub fn init() -> Hardware {
+    // In real code: Initialize GPIO pins here
+    Hardware
 }
 
-impl HardwareHandler {
+impl Hardware {
+    // 4. Implement execute using the imported Action enum
     pub fn execute(&mut self, action: Action) {
         match action {
-            Action::Toggle => { /* Toggle Pin */ },
-            Action::Pulse(ms) => { /* PWM Pulse for ms */ },
-            Action::Offload => { /* Do nothing, handled by net */ },
-            Action::None => {},
+            Action::ToggleLight => {
+                // GPIO High/Low logic would go here
+            },
+            Action::PulseMotor(_ms) => {
+                // PWM logic would go here
+            },
+            Action::OffloadTask => {
+                // Blink LED to show offloading status
+            },
+            Action::Standby => {
+                // Low power mode
+            }
         }
     }
 }
