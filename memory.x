@@ -1,5 +1,7 @@
+/* Memory layout for a generic RISC-V microcontroller (e.g., ESP32-C3) */
 MEMORY
 {
+  /* 4MB Flash, 400KB RAM */
   FLASH : ORIGIN = 0x42000000, LENGTH = 4M
   RAM   : ORIGIN = 0x40380000, LENGTH = 400K
 }
