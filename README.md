@@ -2,7 +2,7 @@
   <img src="https://i.postimg.cc/Z0tX6v9N/file-000000003e707209bf553384c86fbba0.png" width="300" alt="MicroClaw Logo">
 </p>
 
-# MicroClaw (The Krill) 🦐
+# MicroClaw (The Krill)🦐
 **The World's Smallest "Bare-Metal" Agentic AI Framework.**
 
 MicroClaw is a zero-overhead, `no_std` Rust implementation of the Claw agentic ecosystem. While **OpenClaw** handles the heavy lifting on desktops, **MicroClaw** (The Krill) lives inside the smallest sensors, switches, and edge devices, creating a decentralized "swarm" of intelligence.
@@ -46,4 +46,4 @@ micro-claw/
 │   └── protocol/        # Krill Mesh Protocol (KMP)
 ├── Cargo.toml           # Size-optimized configuration
 ├── memory.x             # Linker script for Flash/RAM layout
-└── README.md            # You are here
+└── README.md            
