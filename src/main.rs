@@ -1,9 +1,8 @@
 #![no_std]
 #![no_main]
 
-use panic_abort as _; // Minimizes binary size
-use cortex_m_rt::entry;
-use heapless::String;
+use panic_halt as _;
+use riscv_rt::entry;
 
 mod agent;
 mod net;
@@ -12,25 +11,24 @@ mod protocol;
 
 #[entry]
 fn main() -> ! {
-    // 1. Initialize Hardware (GPIO/WiFi)
+    // Initialize Hardware Peripherals
     let mut hardware = driver::init();
+    
+    // Initialize the Agent Brain
+    let mut brain = agent::Brain::new();
 
-    // 2. Initialize the "Krill" Agent
-    let mut krill_agent = agent::Brain::new();
-
-    // 3. The Main Agentic Loop (Zero-Latency)
     loop {
-        // Listen for "Swarm" messages via Krill Mesh Protocol
-        if let Some(instruction) = net::listen_for_signal() {
+        // 1. Listen for signals from the Mesh or Local sensors
+        if let Some(signal) = net::listen_for_signal() {
             
-            // Local processing or API Proxying
-            let response = krill_agent.process(instruction);
+            // 2. Process logic
+            let response = brain.process(signal);
             
-            // Execute physical action (e.g., flip a switch, move a motor)
+            // 3. Act physically
             hardware.execute(response);
             
-            // Broadcast status to the "Claw" mesh
-            net::broadcast_status("Task Complete");
+            // 4. Report back to the Swarm
+            net::broadcast_status("TASK_COMPLETE");
         }
     }
 }
