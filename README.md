@@ -34,6 +34,13 @@ MicroClaw is designed to outperform its predecessors in extreme resource-constra
 
 ---
 
+### 🛠 How to Run
+1. Install Rust: `rustup target add riscv32imac-unknown-none-elf`
+2. Build: `cargo build --release`
+3. Flash: `cargo espflash flash --release` (For ESP32 chips)
+
+---
+
 ## 🛠 Project Structure
 
 ```text
