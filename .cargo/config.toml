@@ -1,8 +1,9 @@
 [build]
+# Force RISC-V target (ESP32-C3 / BL602)
 target = "riscv32imac-unknown-none-elf"
 
 [target.riscv32imac-unknown-none-elf]
 rustflags = [
-  "-C", "link-arg=-Tmemory.x", # Links the memory.x file
+  "-C", "link-arg=-Tmemory.x",
   "-C", "force-frame-pointers=yes",
 ]
